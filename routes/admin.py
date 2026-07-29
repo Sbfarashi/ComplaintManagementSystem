@@ -249,7 +249,7 @@ def assign_complaint(complaint_id):
 
     if form.validate_on_submit():
 
-        success, message = AssignmentService.assign_complaint(
+        success, message, _ = AssignmentService.assign_complaint(
 
             complaint_id=complaint.id,
 
