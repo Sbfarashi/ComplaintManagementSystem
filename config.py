@@ -1,8 +1,10 @@
-import os
 
-BASE_DIR = os.path.abspath(
-    os.path.dirname(__file__)
-)
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from the local .env file
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 class Config:
@@ -11,7 +13,12 @@ class Config:
     # APPLICATION SETTINGS
     # ==================================================
 
-    SECRET_KEY = "smartmetercompany2026"
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+
+    if not SECRET_KEY:
+        raise RuntimeError(
+            "SECRET_KEY environment variable is not set"
+        )
 
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
         BASE_DIR,
