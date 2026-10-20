@@ -1,0 +1,109 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+
+    <div class="mb-4">
+        <h2><i class="bi bi-person-gear"></i> Edit User</h2>
+        <p class="text-muted">
+            Update the account details for {{ user.full_name }}.
+        </p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            Edit User Information
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        {{ form.full_name.label(class="form-label") }}
+                        {{ form.full_name(class="form-control") }}
+                        {% for error in form.full_name.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control") }}
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control") }}
+                        {% for error in form.phone.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.employee_id.label(class="form-label") }}
+                        {{ form.employee_id(class="form-control") }}
+                        {% for error in form.employee_id.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.designation.label(class="form-label") }}
+                        {{ form.designation(class="form-control") }}
+                        {% for error in form.designation.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.department.label(class="form-label") }}
+                        {{ form.department(class="form-select") }}
+                        {% for error in form.department.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.role.label(class="form-label") }}
+                        {{ form.role(class="form-select") }}
+                        {% for error in form.role.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    This form updates the user's profile and role. It does not change the password.
+                </div>
+
+                <div class="mt-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Save Changes
+                    </button>
+
+                    <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

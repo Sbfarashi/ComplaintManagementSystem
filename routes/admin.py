@@ -10,7 +10,9 @@ from flask import (
 
 from services.category_service import CategoryService
 
-from extensions import bcrypt
+from extensions import bcrypt,db
+
+from forms.password_reset_form import PasswordResetForm
 
 from decorators.auth import admin_required
 
@@ -636,6 +638,60 @@ def edit_user(user_id):
 
         user=user
 
+    )
+
+
+# ==========================================================
+# ADMINISTRATOR PASSWORD RESET
+# ==========================================================
+
+@admin.route(
+    "/admin/user/reset-password/<int:user_id>",
+    methods=["GET", "POST"]
+)
+@admin_required
+def reset_user_password(user_id):
+
+    user = AdminUserService.get_user(user_id)
+
+    if not user:
+        flash("User not found.", "danger")
+        return redirect(url_for("admin.users"))
+
+    form = PasswordResetForm()
+
+    if form.validate_on_submit():
+        try:
+            user.password = bcrypt.generate_password_hash(
+                form.new_password.data
+            ).decode("utf-8")
+
+            db.session.commit()
+
+            flash(
+                f"Password reset successfully for {user.full_name}.",
+                "success"
+            )
+
+            return redirect(
+                url_for(
+                    "admin.user_details",
+                    user_id=user.id
+                )
+            )
+
+        except Exception:
+            db.session.rollback()
+
+            flash(
+                "Password reset failed. Please try again.",
+                "danger"
+            )
+
+    return render_template(
+        "admin/reset_password.html",
+        form=form,
+        user=user
     )
 
 

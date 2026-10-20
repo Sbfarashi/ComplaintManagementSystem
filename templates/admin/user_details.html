@@ -1,0 +1,188 @@
+
+{% extends "base.html" %}
+
+{% block title %}User Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+            <h2><i class="bi bi-person-vcard"></i> User Details</h2>
+            <p class="text-muted mb-0">View account information and complaint history.</p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('admin.edit_user', user_id=user.id) }}"
+               class="btn btn-warning">
+                <i class="bi bi-pencil-square"></i> Edit User
+            </a>
+<a href="{{ url_for('admin.edit_user', user_id=user.id) }}"
+   class="btn btn-primary">
+    Edit User
+</a>
+
+<a href="{{ url_for('admin.reset_user_password', user_id=user.id) }}"
+   class="btn btn-danger">
+    Reset Password
+</a>
+            <a href="{{ url_for('admin.users') }}"
+               class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Users
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- User Information -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-person-fill"></i> Account Information
+        </div>
+
+        <div class="card-body">
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label class="text-muted small">User ID</label>
+                    <div class="fw-semibold">{{ user.id }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Full Name</label>
+                    <div class="fw-semibold">{{ user.full_name }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Email Address</label>
+                    <div>{{ user.email }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Phone Number</label>
+                    <div>{{ user.phone or '-' }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Employee ID</label>
+                    <div>{{ user.employee_id or '-' }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Designation</label>
+                    <div>{{ user.designation or '-' }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Role</label>
+                    <div>{{ user.role }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Department</label>
+                    <div>
+                        {% if user.department %}
+                            {{ user.department.name }}
+                        {% else %}
+                            Not assigned
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Account Status</label>
+                    <div>
+                        {% if user.is_active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Date Created</label>
+                    <div>
+                        {% if user.created_at %}
+                            {{ user.created_at.strftime('%d %B %Y, %I:%M %p') }}
+                        {% else %}
+                            Not available
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="text-muted small">Last Login</label>
+                    <div>
+                        {% if user.last_login %}
+                            {{ user.last_login.strftime('%d %B %Y, %I:%M %p') }}
+                        {% else %}
+                            No recorded login
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaint History -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <i class="bi bi-chat-square-text-fill"></i> Complaint History
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Complaint ID</th>
+                        <th>Date Submitted</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.id }}</td>
+
+                        <td>
+                            {% if complaint.created_at %}
+                                {{ complaint.created_at.strftime('%d %B %Y') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if complaint.status %}
+                                {{ complaint.status.name
+                                   if complaint.status.name is defined
+                                   else complaint.status }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center py-4">
+                            No complaints recorded for this user.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

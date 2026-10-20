@@ -1,0 +1,117 @@
+
+{% extends "base.html" %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+<div class="container mt-4 mb-5">
+
+    <div class="mb-4">
+        <h2><i class="bi bi-person-plus-fill"></i> Add New User</h2>
+        <p class="text-muted">Create a user account for Smart Meters Company.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            User Registration Form
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        {{ form.full_name.label(class="form-label") }}
+                        {{ form.full_name(class="form-control", placeholder="Enter full name") }}
+                        {% for error in form.full_name.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-control", placeholder="Enter email address") }}
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.phone.label(class="form-label") }}
+                        {{ form.phone(class="form-control", placeholder="Enter phone number") }}
+                        {% for error in form.phone.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.employee_id.label(class="form-label") }}
+                        {{ form.employee_id(class="form-control", placeholder="Employee ID (optional)") }}
+                        {% for error in form.employee_id.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.designation.label(class="form-label") }}
+                        {{ form.designation(class="form-control", placeholder="Job title (optional)") }}
+                        {% for error in form.designation.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.department.label(class="form-label") }}
+                        {{ form.department(class="form-select") }}
+                        {% for error in form.department.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.role.label(class="form-label") }}
+                        {{ form.role(class="form-select") }}
+                        {% for error in form.role.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-control", autocomplete="new-password", minlength="6", required=true) }}
+                        <div class="form-text">Use at least 6 characters and choose a strong password.</div>
+                        {% for error in form.password.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-control", autocomplete="new-password", required=true) }}
+                        {% for error in form.confirm_password.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    {{ form.submit(class="btn btn-primary", value="Create User") }}
+                    <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

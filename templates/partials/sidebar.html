@@ -166,7 +166,7 @@
 
         <!-- ================= ADMIN ================= -->
 
-        {% if session.get("role") == "admin" %}
+        {% if session.get("role") == "administrator" %}
 
         <li>
             <a href="{{ url_for('admin.dashboard') }}">
