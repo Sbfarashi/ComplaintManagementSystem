@@ -20,13 +20,36 @@ class Config:
             "SECRET_KEY environment variable is not set"
         )
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
-        BASE_DIR,
-        "database",
-        "smartmeter.db"
-    )
+    # Use PostgreSQL when DATABASE_URL is configured.
+    # Otherwise, continue using the existing local SQLite database.
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+
+    if DATABASE_URL:
+        if DATABASE_URL.startswith("postgres://"):
+            DATABASE_URL = DATABASE_URL.replace(
+                "postgres://",
+                "postgresql+psycopg://",
+                1
+            )
+        elif DATABASE_URL.startswith("postgresql://"):
+            DATABASE_URL = DATABASE_URL.replace(
+                "postgresql://",
+                "postgresql+psycopg://",
+                1
+            )
+
+        SQLALCHEMY_DATABASE_URI = DATABASE_URL
+    else:
+        SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(
+            BASE_DIR,
+            "database",
+            "smartmeter.db"
+        )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True
+    } if DATABASE_URL else {}
 
     # ==================================================
     # IMAGE UPLOAD SETTINGS
@@ -52,25 +75,14 @@ class Config:
     # ==================================================
 
     DEFAULT_ADMIN_NAME = "System Administrator"
-
     DEFAULT_ADMIN_EMAIL = "admin@smartmeters.com"
-
     DEFAULT_ADMIN_PHONE = "08000000000"
-
     DEFAULT_ADMIN_PASSWORD = "Admin@12345"
 
     # ==================================================
     # COMPANY INFORMATION
     # ==================================================
 
-    COMPANY_NAME = (
-        "Smart Meters Company Ltd"
-    )
-
-    SYSTEM_NAME = (
-        "Intelligent Customer Complaint Management System"
-    )
-
-    COMPANY_ADDRESS = (
-        "Kaduna, Nigeria"
-    )
+    COMPANY_NAME = "Smart Meters Company Ltd"
+    SYSTEM_NAME = "Intelligent Customer Complaint Management System"
+    COMPANY_ADDRESS = "Kaduna, Nigeria"
