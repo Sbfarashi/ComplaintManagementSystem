@@ -1,3 +1,4 @@
+
 <aside class="sidebar">
 
     <div class="sidebar-header">
@@ -39,7 +40,7 @@
         </li>
 
         <li>
-            <a href="{{ url_for('customer.track_complaint') }}">
+            <a href="{{ url_for('complaint.history') }}">
                 <i class="bi bi-search"></i>
                 Track Complaint
             </a>
@@ -66,21 +67,8 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ url_for('customer.profile') }}">
-                <i class="bi bi-person-fill"></i>
-                My Profile
-            </a>
-        </li>
-
-        <li>
-            <a href="{{ url_for('customer.settings') }}">
-                <i class="bi bi-gear-fill"></i>
-                Settings
-            </a>
-        </li>
-
         {% endif %}
+
 
         <!-- ================= ENGINEER ================= -->
 
@@ -137,6 +125,7 @@
 
         {% endif %}
 
+
         <!-- ================= STAFF ================= -->
 
         {% if session.get("role") == "staff" %}
@@ -163,6 +152,7 @@
         </li>
 
         {% endif %}
+
 
         <!-- ================= ADMIN ================= -->
 
@@ -218,6 +208,7 @@
         </li>
 
         {% endif %}
+
 
         <!-- ================= LOGOUT ================= -->
 
