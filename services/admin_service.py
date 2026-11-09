@@ -1,3 +1,4 @@
+
 from sqlalchemy import func
 
 from extensions import db
@@ -94,35 +95,22 @@ class AdminService:
         )
 
         return {
-
             "total_users": total_users,
-
             "total_staff": total_staff,
-
             "total_complaints": total_complaints,
-
             "pending": pending,
-
             "in_progress": in_progress,
-
             "resolved": resolved,
 
             "escalation": {
-
                 "level1": level1,
-
                 "level2": level2,
-
                 "level3": level3,
-
                 "total": total_escalated
-
             },
 
             "recent": recent,
-
             "recent_escalated": recent_escalated
-
         }
 
     # ==========================================================
@@ -188,46 +176,6 @@ class AdminService:
         ]
 
     # ==========================================================
-    # MONTHLY COMPLAINT STATISTICS
-    # ==========================================================
-
-    @staticmethod
-    def monthly_statistics():
-
-        rows = (
-            db.session.query(
-                func.strftime(
-                    "%Y-%m",
-                    Complaint.created_at
-                ).label("month"),
-                func.count(
-                    Complaint.id
-                ).label("total")
-            )
-            .group_by(
-                func.strftime(
-                    "%Y-%m",
-                    Complaint.created_at
-                )
-            )
-            .order_by(
-                func.strftime(
-                    "%Y-%m",
-                    Complaint.created_at
-                )
-            )
-            .all()
-        )
-
-        return [
-            {
-                "month": row.month,
-                "total": row.total
-            }
-            for row in rows
-        ]
-
-    # ==========================================================
     # COMPLAINTS BY CATEGORY
     # ==========================================================
 
@@ -246,6 +194,7 @@ class AdminService:
                 Complaint.category_id == Category.id
             )
             .group_by(
+                Category.id,
                 Category.name
             )
             .order_by(
@@ -257,6 +206,54 @@ class AdminService:
         return [
             {
                 "category": row.category,
+                "total": row.total
+            }
+            for row in rows
+        ]
+
+    # ==========================================================
+    # MONTHLY COMPLAINT STATISTICS
+    # Supports SQLite and PostgreSQL
+    # ==========================================================
+
+    @staticmethod
+    def monthly_statistics():
+
+        database_type = db.session.get_bind().dialect.name
+
+        if database_type == "postgresql":
+
+            month_expression = func.to_char(
+                Complaint.created_at,
+                "YYYY-MM"
+            )
+
+        else:
+
+            month_expression = func.strftime(
+                "%Y-%m",
+                Complaint.created_at
+            )
+
+        rows = (
+            db.session.query(
+                month_expression.label("month"),
+                func.count(
+                    Complaint.id
+                ).label("total")
+            )
+            .group_by(
+                month_expression
+            )
+            .order_by(
+                month_expression
+            )
+            .all()
+        )
+
+        return [
+            {
+                "month": row.month,
                 "total": row.total
             }
             for row in rows
@@ -397,7 +394,9 @@ class AdminService:
 
         return (
             User.query
-            .order_by(User.created_at.desc())
+            .order_by(
+                User.created_at.desc()
+            )
             .all()
         )
 
@@ -451,7 +450,6 @@ class AdminService:
     def dashboard_summary():
 
         return {
-
             "dashboard": AdminService.dashboard(),
 
             "status": AdminService.complaints_by_status(),
@@ -469,5 +467,4 @@ class AdminService:
             "recently_resolved": AdminService.recently_resolved(),
 
             "overdue": AdminService.overdue()
-
         }
