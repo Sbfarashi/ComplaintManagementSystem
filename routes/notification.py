@@ -38,7 +38,7 @@ def notifications():
 
     return render_template(
 
-        "notifications/index.html",
+        "notification/index.html",
 
         notifications=notifications,
 
