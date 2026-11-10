@@ -26,6 +26,7 @@ from models.complaint_status import ComplaintStatus
 from models.priority import Priority
 from models.complaint_history import ComplaintHistory
 from models.notification import Notification
+from models.password_reset_request import PasswordResetRequest
 from models.field_visit import FieldVisit
 from models.login_history import LoginHistory
 from routes.activity_log import activity_log

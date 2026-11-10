@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import (
     Blueprint,
     render_template,
@@ -24,6 +25,7 @@ from models.user import User
 from models.department import Department
 from models.category import Category
 from models.complaint import Complaint
+from models.password_reset_request import PasswordResetRequest
 
 # ==========================================================
 # Forms
@@ -451,6 +453,28 @@ def users():
 
 
 # ==========================================================
+# PASSWORD RESET REQUESTS
+# ==========================================================
+
+@admin.route("/admin/password-reset-requests")
+@admin_required
+def password_reset_requests():
+
+    reset_requests = (
+        PasswordResetRequest.query
+        .order_by(
+            PasswordResetRequest.requested_at.desc()
+        )
+        .all()
+    )
+
+    return render_template(
+        "admin/password_reset_requests.html",
+        reset_requests=reset_requests
+    )
+
+
+# ==========================================================
 # USER DETAILS
 # ==========================================================
 
@@ -641,6 +665,7 @@ def edit_user(user_id):
     )
 
 
+
 # ==========================================================
 # ADMINISTRATOR PASSWORD RESET
 # ==========================================================
@@ -661,11 +686,28 @@ def reset_user_password(user_id):
     form = PasswordResetForm()
 
     if form.validate_on_submit():
+
         try:
+            # Generate a secure password hash.
             user.password = bcrypt.generate_password_hash(
                 form.new_password.data
             ).decode("utf-8")
 
+            # Mark all pending requests for this account as completed.
+            now = datetime.utcnow()
+
+            pending_requests = PasswordResetRequest.query.filter_by(
+                user_id=user.id,
+                status="Pending"
+            ).all()
+
+            for reset_request in pending_requests:
+                reset_request.status = "Completed"
+                reset_request.reviewed_by = session.get("user_id")
+                reset_request.reviewed_at = now
+                reset_request.completed_at = now
+
+            # Save the password and request updates together.
             db.session.commit()
 
             flash(
@@ -693,6 +735,7 @@ def reset_user_password(user_id):
         form=form,
         user=user
     )
+
 
 
 # ==========================================================

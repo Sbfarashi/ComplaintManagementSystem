@@ -1,19 +1,28 @@
-from flask import Blueprint
-from flask import render_template
-from flask import redirect
-from flask import url_for
-from flask import flash
-from flask import session
+
+from flask import (
+    Blueprint,
+    render_template,
+    redirect,
+    url_for,
+    flash,
+    session
+)
+
+from sqlalchemy import func
+
+from extensions import db
 
 from forms.register_form import RegisterForm
 from forms.login_form import LoginForm
 from forms.change_password_form import ChangePasswordForm
+from forms.forgot_password_form import ForgotPasswordForm
 
 from services.auth_service import AuthService
 from services.login_history_service import LoginHistoryService
 from services.activity_log_service import ActivityLogService
 
 from models.user import User
+from models.password_reset_request import PasswordResetRequest
 
 from constants.roles import UserRole
 
@@ -134,6 +143,81 @@ def login():
 
     return render_template(
         "auth/login.html",
+        form=form
+    )
+
+
+# ===================================================
+# FORGOT PASSWORD
+# USER PASSWORD RESET REQUEST
+# Administrator approval required
+# ===================================================
+
+@auth.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    form = ForgotPasswordForm()
+
+    if form.validate_on_submit():
+
+        email = (form.email.data or "").strip().lower()
+
+        try:
+
+            # Find the account using the registered email.
+            user = User.query.filter(
+                func.lower(User.email) == email
+            ).first()
+
+            if user:
+
+                # Check whether a pending request already exists.
+                existing_request = PasswordResetRequest.query.filter_by(
+                    user_id=user.id,
+                    status="Pending"
+                ).first()
+
+                # Create a new request only if there is no pending one.
+                if not existing_request:
+
+                    new_request = PasswordResetRequest(
+
+                        user_id=user.id,
+
+                        email=user.email,
+
+                        status="Pending"
+
+                    )
+
+                    db.session.add(new_request)
+
+                    db.session.commit()
+
+            # Use the same message whether the account exists or not.
+            flash(
+                "If an account matches that email address, "
+                "your password reset request has been submitted "
+                "for administrator review.",
+                "info"
+            )
+
+            return redirect(
+                url_for("auth.login")
+            )
+
+        except Exception:
+
+            db.session.rollback()
+
+            flash(
+                "We could not process your request. "
+                "Please try again.",
+                "danger"
+            )
+
+    return render_template(
+        "auth/forgot_password.html",
         form=form
     )
 

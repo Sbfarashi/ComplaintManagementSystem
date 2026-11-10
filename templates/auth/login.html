@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -26,15 +27,11 @@
                                  class="mb-3">
 
                             <h2 class="fw-bold text-primary">
-
                                 Welcome Back
-
                             </h2>
 
                             <p class="text-muted">
-
                                 Smart Meter Company Limited
-
                             </p>
 
                         </div>
@@ -54,7 +51,7 @@
 
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-2">
 
                                 {{ form.password.label(class="form-label fw-bold") }}
 
@@ -79,6 +76,17 @@
 
                             </div>
 
+                            <div class="text-end mb-4">
+
+                                <a href="{{ url_for('auth.forgot_password') }}"
+                                   class="text-decoration-none">
+
+                                    Forgot Password?
+
+                                </a>
+
+                            </div>
+
                             <div class="d-grid">
 
                                 {{ form.submit(
@@ -94,9 +102,7 @@
                         <div class="text-center">
 
                             <p>
-
                                 Don't have an account?
-
                             </p>
 
                             <a href="{{ url_for('auth.register') }}"
@@ -124,15 +130,15 @@
 
 function togglePassword(){
 
-    const password=document.getElementById("password");
+    const password = document.getElementById("password");
 
-    if(password.type==="password"){
+    if(password.type === "password"){
 
-        password.type="text";
+        password.type = "text";
 
-    }else{
+    } else {
 
-        password.type="password";
+        password.type = "password";
 
     }
 
