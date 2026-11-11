@@ -1,0 +1,41 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}Supervisor Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-speedometer2 text-primary me-2"></i>Supervisor Dashboard</h2>
+            <p class="text-muted mb-0">Welcome, {{ session.get('full_name', 'Supervisor') }}. Monitor complaint operations and staff workload.</p>
+        </div>
+        <a href="{{ url_for('report.dashboard') }}" class="btn btn-primary"><i class="bi bi-file-earmark-bar-graph me-2"></i>View Reports</a>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6"><div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-muted">Total Complaints</div><div class="fs-2 fw-bold">{{ total_complaints }}</div></div></div></div>
+        <div class="col-xl-3 col-md-6"><div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-muted">Pending</div><div class="fs-2 fw-bold text-warning">{{ pending }}</div></div></div></div>
+        <div class="col-xl-3 col-md-6"><div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-muted">In Progress</div><div class="fs-2 fw-bold text-info">{{ in_progress }}</div></div></div></div>
+        <div class="col-xl-3 col-md-6"><div class="card border-0 shadow-sm h-100"><div class="card-body"><div class="text-muted">Resolved / Closed</div><div class="fs-2 fw-bold text-success">{{ resolved }}</div></div></div></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6"><div class="card border-0 shadow-sm"><div class="card-body"><div class="text-muted">Active Staff and Engineers</div><div class="fs-3 fw-bold">{{ active_staff }}</div></div></div></div>
+        <div class="col-md-6"><div class="card border-0 shadow-sm"><div class="card-body"><div class="text-muted">Supervisor Tools</div><div class="mt-2"><a class="btn btn-outline-primary btn-sm me-2" href="{{ url_for('report.dashboard') }}">Reports</a><a class="btn btn-outline-secondary btn-sm" href="{{ url_for('support.staff_inbox') }}">AI Support Inbox</a></div></div></div></div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white"><h5 class="mb-0">Recent Complaints</h5></div>
+        <div class="card-body">
+            {% if recent_complaints %}
+            <div class="table-responsive"><table class="table table-hover align-middle">
+                <thead><tr><th>Complaint No.</th><th>Title</th><th>Priority</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody>{% for complaint in recent_complaints %}
+                <tr><td>{{ complaint.complaint_number }}</td><td>{{ complaint.title }}</td><td>{{ complaint.priority }}</td><td><span class="badge bg-secondary">{{ complaint.status }}</span></td><td>{{ complaint.created_at.strftime('%d %b %Y') if complaint.created_at else '—' }}</td></tr>
+                {% endfor %}</tbody>
+            </table></div>
+            {% else %}<p class="text-muted mb-0">No complaints have been recorded.</p>{% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

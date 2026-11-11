@@ -41,6 +41,7 @@ from routes.auth import auth
 from routes.customer import customer
 from routes.complaint import complaint
 from routes.staff import staff
+from routes.supervisor import supervisor
 from routes.admin import admin
 from routes.notification import notification
 from routes.engineer import engineer_bp
@@ -76,6 +77,7 @@ def create_app():
     app.register_blueprint(customer)
     app.register_blueprint(complaint)
     app.register_blueprint(staff)
+    app.register_blueprint(supervisor)
     app.register_blueprint(admin)
     app.register_blueprint(notification)
     app.register_blueprint(engineer_bp)

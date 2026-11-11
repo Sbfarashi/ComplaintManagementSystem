@@ -121,7 +121,7 @@ def login():
             elif role == UserRole.SUPERVISOR:
 
                 return redirect(
-                    url_for("staff.dashboard")
+                    url_for("supervisor.dashboard")
                 )
 
             elif role == UserRole.CUSTOMER:
@@ -275,7 +275,7 @@ def change_password():
             elif role == UserRole.SUPERVISOR:
 
                 return redirect(
-                    url_for("staff.dashboard")
+                    url_for("supervisor.dashboard")
                 )
 
             elif role == UserRole.CUSTOMER:

@@ -154,6 +154,48 @@
         {% endif %}
 
 
+        <!-- ================= SUPERVISOR ================= -->
+
+        {% if session.get("role") == "supervisor" %}
+
+        <li>
+            <a href="{{ url_for('supervisor.dashboard') }}">
+                <i class="bi bi-speedometer2"></i>
+                Supervisor Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('report.dashboard') }}">
+                <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('support.staff_inbox') }}">
+                <i class="bi bi-headset"></i>
+                AI Support
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('login_history.index') }}">
+                <i class="bi bi-clock-fill"></i>
+                Login History
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ url_for('activity_log.index') }}">
+                <i class="bi bi-journal-text"></i>
+                Activity Log
+            </a>
+        </li>
+
+        {% endif %}
+
+
         <!-- ================= ADMIN ================= -->
 
         {% if session.get("role") == "administrator" %}
