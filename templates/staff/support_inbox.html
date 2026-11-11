@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+
+    <h3 class="mb-4">Human Support Inbox</h3>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            {% if conversations %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Meter Number</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Sentiment</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for conversation in conversations %}
+                        <tr>
+                            <td>#{{ conversation.id }}</td>
+                            <td>{{ conversation.customer.full_name }}</td>
+                            <td>{{ conversation.meter_number or 'N/A' }}</td>
+                            <td>{{ conversation.location or 'N/A' }}</td>
+                            <td>{{ conversation.recommended_priority or 'N/A' }}</td>
+                            <td>{{ conversation.sentiment or 'N/A' }}</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">
+                                    {{ conversation.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('support.staff_conversation', conversation_id=conversation.id) }}"
+                                   class="btn btn-sm btn-primary">
+                                    Open Chat
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="alert alert-info">
+                    There are currently no conversations awaiting human support.
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+text,category
+"My electricity bill is higher than usual despite using the same appliances",Billing
+"My bill includes charges I do not understand",Billing
+"The amount charged on my account appears incorrect",Billing
+"My previous payment is not reflected in my billing statement",Billing
+"Please explain the outstanding balance on my electricity bill",Billing
+"My estimated bill is much higher than my normal consumption",Billing
+"I was charged twice for the same billing period",Billing
+"The payment receipt amount differs from the bill",Billing
+"My account shows arrears after I paid the bill",Billing
+"My monthly electricity charges have increased unexpectedly",Billing
+"The tariff applied to my account seems incorrect",Billing
+"I need a correction to an incorrect billing statement",Billing
+"The meter screen is blank and no digits are displayed",Meter Fault
+"My meter restarts repeatedly without being touched",Meter Fault
+"The meter buttons are not responding",Meter Fault
+"The meter display is flickering and difficult to read",Meter Fault
+"The meter is making an unusual buzzing sound",Meter Fault
+"The meter shows an internal hardware error",Meter Fault
+"The meter has stopped recording electricity consumption",Meter Fault
+"The meter display is frozen on one reading",Meter Fault
+"The meter casing is damaged and the display is not working",Meter Fault
+"The meter keeps switching off unexpectedly",Meter Fault
+"The meter is not measuring consumption correctly",Meter Fault
+"The meter shows a fault indicator",Meter Fault
+"There is no electricity supply in my house",Power Outage
+"My whole street has been without power since morning",Power Outage
+"Power supply went off and neighbouring houses are also affected",Power Outage
+"Electricity stopped suddenly in my building",Power Outage
+"We have had a prolonged blackout in our area",Power Outage
+"My premises have no power although the meter is on",Power Outage
+"Electricity supply has not returned after an outage",Power Outage
+"Multiple houses on my street have lost power",Power Outage
+"There is no power from the distribution supply",Power Outage
+"Our neighbourhood has experienced a complete blackout",Power Outage
+"The electricity supply is unavailable at my home",Power Outage
+"Power went off across our compound",Power Outage
+"I need a new prepaid meter installed at my property",Installation
+"Please arrange installation of a meter at my new house",Installation
+"My building has been approved for a new meter installation",Installation
+"I want to apply for first time meter installation",Installation
+"No meter has been installed at my premises yet",Installation
+"Please schedule a technician to install my new meter",Installation
+"I need a single phase meter installed at my shop",Installation
+"I require a three phase meter installation",Installation
+"The meter installation appointment has not been completed",Installation
+"Please register my property for meter installation",Installation
+"I have received a meter but need installation",Installation
+"Requesting a new meter connection at this address",Installation
+"The lights become very dim then suddenly bright",Voltage Fluctuation
+"Voltage keeps rising and falling in my house",Voltage Fluctuation
+"My appliances flicker because supply voltage is unstable",Voltage Fluctuation
+"The electricity voltage is unusually low",Voltage Fluctuation
+"The power supply is fluctuating throughout the day",Voltage Fluctuation
+"My lights flicker repeatedly when electricity is available",Voltage Fluctuation
+"Voltage drops whenever I switch on an appliance",Voltage Fluctuation
+"The supply is unstable and appliances are restarting",Voltage Fluctuation
+"My fan speed changes because the voltage varies",Voltage Fluctuation
+"The electricity supply has frequent voltage surges",Voltage Fluctuation
+"Voltage is too high and I am worried about equipment",Voltage Fluctuation
+"The lights flicker even though power is not fully off",Voltage Fluctuation
+"My prepaid meter rejects every recharge token",Token Issue
+"I purchased a token but it will not load into the meter",Token Issue
+"The meter displays token error when I enter the code",Token Issue
+"My recharge token keeps showing invalid",Token Issue
+"The token is accepted but units are not added",Token Issue
+"I cannot recharge my prepaid meter",Token Issue
+"The token digits are correct but the meter rejects them",Token Issue
+"My purchased electricity units are missing after recharge",Token Issue
+"The meter says used token for a new purchase",Token Issue
+"I received a token but it fails during entry",Token Issue
+"My meter is not accepting the recharge code",Token Issue
+"The recharge token gives an error message",Token Issue
+"My faulty meter needs to be replaced with a new one",Meter Replacement
+"I was advised to replace my damaged meter",Meter Replacement
+"Please arrange replacement of my old meter",Meter Replacement
+"My meter is beyond repair and needs replacement",Meter Replacement
+"I need a replacement meter because the existing one is damaged",Meter Replacement
+"The meter was declared faulty and I need a new unit",Meter Replacement
+"Requesting replacement of my obsolete prepaid meter",Meter Replacement
+"My meter was stolen and I need a replacement",Meter Replacement
+"The existing meter must be changed due to persistent faults",Meter Replacement
+"Please process a replacement for my failed meter",Meter Replacement
+"My meter is physically damaged and replacement is required",Meter Replacement
+"The technician recommended a new meter",Meter Replacement
+"The meter is not communicating with the head end system",Network Issue
+"Remote meter readings are not updating",Network Issue
+"The meter communication signal is unavailable",Network Issue
+"The utility cannot retrieve readings from my smart meter",Network Issue
+"My smart meter is offline on the monitoring system",Network Issue
+"The communication module cannot connect to the network",Network Issue
+"Remote connection to the meter keeps failing",Network Issue
+"The meter data has not synced with the central system",Network Issue
+"Smart meter communication is lost intermittently",Network Issue
+"The meter is not sending consumption data",Network Issue
+"The network connection to the meter is unstable",Network Issue
+"My meter is not appearing on the remote monitoring platform",Network Issue
+"I need assistance with an issue not listed in the categories",General Complaint
+"Please help me update my customer account details",General Complaint
+"I have a question about the electricity service",General Complaint
+"I want to make a general enquiry about my meter",General Complaint
+"My complaint does not fit any of the listed categories",General Complaint
+"I need clarification about a service procedure",General Complaint
+"Please contact me regarding my service request",General Complaint
+"I would like to submit feedback about the service",General Complaint
+"There is an issue with my customer information",General Complaint
+"I need help with an unrelated account matter",General Complaint
+"I have a concern that needs customer support",General Complaint
+"Please assist me with a general service enquiry",General Complaint

@@ -30,6 +30,8 @@ from models.password_reset_request import PasswordResetRequest
 from models.field_visit import FieldVisit
 from models.login_history import LoginHistory
 from routes.activity_log import activity_log
+from models.support_conversation import SupportConversation
+from models.support_message import SupportMessage
 
 # ==========================================================
 # Blueprints
@@ -45,6 +47,7 @@ from routes.engineer import engineer_bp
 from routes.login_history import login_history
 from models.activity_log import ActivityLog
 from routes.report import report
+from routes.support import support
 
 
 def create_app():
@@ -79,6 +82,7 @@ def create_app():
     app.register_blueprint(login_history)
     app.register_blueprint(activity_log)
     app.register_blueprint(report)
+    app.register_blueprint(support)
 
     # ==========================================================
     # Create Database Tables

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Human Support Conversation #{{ conversation.id }}</h5>
+            <small>{{ conversation.customer.full_name }} | {{ conversation.status }}</small>
+        </div>
+
+        <div class="card-body">
+            <div class="border rounded p-3 mb-3" style="max-height:450px;overflow-y:auto;">
+                {% for message in conversation.messages %}
+                <div class="mb-3">
+                    <strong>{{ message.sender_type|title }}{% if message.sender %} — {{ message.sender.full_name }}{% endif %}</strong>
+                    <div class="bg-light border rounded p-3 mt-1">{{ message.message }}</div>
+                    <small class="text-muted">{{ message.created_at.strftime('%d %b %Y %H:%M') }}</small>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if conversation.status != 'RESOLVED' %}
+            <form method="POST" action="{{ url_for('support.staff_reply', conversation_id=conversation.id) }}">
+                <textarea name="message" class="form-control mb-3" rows="3" placeholder="Write your reply..." required></textarea>
+                <button class="btn btn-primary" type="submit">Send Reply</button>
+            </form>
+
+            <form method="POST" action="{{ url_for('support.resolve_conversation', conversation_id=conversation.id) }}" class="mt-2">
+                <button class="btn btn-success" type="submit">Mark as Resolved</button>
+            </form>
+            {% else %}
+            <div class="alert alert-success">This conversation is resolved.</div>
+            {% endif %}
+
+            <a href="{{ url_for('support.staff_inbox') }}" class="btn btn-outline-secondary mt-3">Back to Inbox</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

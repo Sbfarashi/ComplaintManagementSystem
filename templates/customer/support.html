@@ -1,0 +1,79 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">AI Customer Support</h4>
+            <small>Smart Meters Company Limited</small>
+        </div>
+
+        <div class="card-body">
+            <h5>Start a Support Conversation</h5>
+            <p>Describe your meter or electricity problem. Our AI assistant will guide you.</p>
+
+            <form method="POST" action="{{ url_for('support.start_conversation') }}">
+                <div class="mb-3">
+                    <label class="form-label">Meter Number</label>
+                    <input type="text" name="meter_number" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Describe Your Problem</label>
+                    <textarea name="message" class="form-control" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Start AI Support
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-header">
+            <h5 class="mb-0">My Support Conversations</h5>
+        </div>
+
+        <div class="card-body">
+            {% if conversations %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Conversation</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for conversation in conversations %}
+                            <tr>
+                                <td>#{{ conversation.id }}</td>
+                                <td>{{ conversation.status }}</td>
+                                <td>{{ conversation.created_at.strftime('%d %b %Y %H:%M') }}</td>
+                                <td>
+                                    <a href="{{ url_for('support.view_conversation', conversation_id=conversation.id) }}"
+                                       class="btn btn-sm btn-primary">
+                                        Open
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">You have no support conversations yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
