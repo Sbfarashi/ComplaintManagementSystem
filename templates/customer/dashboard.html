@@ -139,7 +139,7 @@
 
                         <td>#{{ complaint.id }}</td>
 
-                        <td>{{ complaint.category }}</td>
+                        <td>{{ complaint.category.name if complaint.category else 'Uncategorized' }}</td>
 
                         <td>{{ complaint.priority }}</td>
 
